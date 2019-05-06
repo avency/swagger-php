@@ -7,6 +7,7 @@
 namespace OpenApi;
 
 /**
+ * @Annotation
  * Context
  *
  * The context in which the annotation is parsed.

@@ -135,18 +135,33 @@ abstract class AbstractAnnotation implements JsonSerializable
 
     public function __get($property)
     {
-        $properties = get_object_vars($this);
-        Logger::notice('Property "' . $property . '" doesn\'t exist in a ' . $this->identity() . ', existing properties: "' . implode('", "', array_keys($properties)) . '" in ' . $this->_context);
+        $prop           = null;
+        try{
+            $propRef    = new \ReflectionProperty(__CLASS__, $property);
+            $prop       = $propRef->isStatic() ? static::${$property} : $this->{$property};
+        }catch (\Exception $e){ 
+            $properties = get_object_vars($this);
+            Logger::notice('Property "' . $property . '" doesn\'t exist in a ' . $this->identity() . ', existing properties: "' . implode('", "', array_keys($properties)) . '" in ' . $this->_context);
+        }
+        return $prop;
     }
 
     public function __set($property, $value)
     {
-        $fields = get_object_vars($this);
-        foreach (static::$_blacklist as $_property) {
-            unset($fields[$_property]);
+        try{
+            $propRef    = new \ReflectionProperty(__CLASS__, $property);
+            if($propRef->isStatic()){
+                static::${$property} = $value;
+            }else{
+                $this->{$property} = $value;
+            }
+        }catch (\Exception $e){ 
+            $fields = get_object_vars($this);
+            foreach (static::$_blacklist as $_property) {
+                unset($fields[$_property]);
+            }
+            Logger::notice('Unexpected field "' . $property . '" for ' . $this->identity() . ', expecting "' . implode('", "', array_keys($fields)) . '" in ' . $this->_context);
         }
-        Logger::notice('Unexpected field "' . $property . '" for ' . $this->identity() . ', expecting "' . implode('", "', array_keys($fields)) . '" in ' . $this->_context);
-        $this->$property = $value;
     }
 
     /**
