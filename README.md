@@ -2,6 +2,9 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/zircote/swagger-php.svg?style=flat-square)](https://packagist.org/packages/zircote/swagger-php)
 [![License](https://img.shields.io/badge/license-Apache2.0-blue.svg?style=flat-square)](LICENSE-2.0.txt)
 
+# Notice
+Copied and modified from https://github.com/sintbert/swagger-php
+
 # swagger-php
 
 Generate interactive [OpenAPI](https://www.openapis.org) documentation for your RESTful API using [doctrine annotations](https://www.doctrine-project.org/projects/doctrine-annotations/en/latest/index.html).
@@ -17,13 +20,13 @@ Generate interactive [OpenAPI](https://www.openapis.org) documentation for your 
 ## Installation (with [Composer](https://getcomposer.org))
 
 ```bash
-composer require zircote/swagger-php
+composer require avency/swagger-php
 ```
 
 For cli usage from anywhere install swagger-php globally and make sure to place the `~/.composer/vendor/bin` directory in your PATH so the `openapi` executable can be located by your system.
 
 ```bash
-composer global require zircote/swagger-php
+composer global require avency/swagger-php
 ```
 
 ## Usage
